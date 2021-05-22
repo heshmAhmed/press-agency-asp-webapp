@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Hesham Ahmed">
+
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @Scripts.Render("~/Scripts/jquery-3.4.1.slim.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
+    @Styles.Render("~/Content/bootstrap.min.css")
+</head>
+<body class="h-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Press Agency</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li> <a class="nav-link" href="#">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="height: 92.3%;">
+        <div class="row h-100">
+            <div class="col-md-2 col-sm-2 col-xs-2 py-5 bg-dark">
+                <ul class="nav flex-column text-white">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link active" href="#">Create new post</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link" href="#">My posts</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link" href="#">Received questions</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 col-sm-7 col-xs-7 py-5">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
