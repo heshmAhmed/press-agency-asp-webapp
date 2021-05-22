@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Posts";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row py-3">
+        <div class="col-2 text-center">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    filter
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 text-right">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    category
+                </button>
+                <button class="btn btn-success mb-1">Add Post</button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 card mb-3">
+            <div class="alert alert-danger mt-1" role="alert">
+                Rejected
+            </div>
+            <div class="alert alert-success" role="alert">
+                Accepted
+            </div>
+            <h5 class="card-title mt-1">Title: my first app in bootstrap</h5>
+            <img src="../img/332.jpg" class="card-img-top" alt="...">
+            <div id="accordion">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                richardson ad squid single-origin coffee nulla assumenda shoreditch et.
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    Nihil anim keffiyeh
+                    helvetica,
+                    craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                    excepteur
+                    butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                    synth
+                    nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                    quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+                    on it
+                </div>
+                <a class="link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                   aria-controls="collapseTwo" style="cursor: pointer;">
+                    Read more
+                </a>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" class="btn btn-primary">Edit</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                    <div class="d-inline">
+                        <small class="align-middle">editorrrr</small>
+                        <small class="align-middle">dateeeeeeeeee</small>
+                        <small class="align-middle">typeee</small>
+                    </div>
+                    <div class="d-inline">
+                        <small class="align-middle">views</small>
+                        <small class="align-middle">0000000</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
