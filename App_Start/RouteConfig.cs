@@ -16,8 +16,9 @@ namespace press_agency_asp_webapp
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Editor", action = "CreatePost", id = UrlParameter.Optional }
             );
+
         }
     }
 }

@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Wall";
+    Layout = "~/Views/Shared/_WallLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row py-3">
+        <div class="col-2 text-center">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    filter
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 text-right">
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    category
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6 card mb-3">
+            <h5 class="card-title mt-1" id="title">Title: my first app in bootstrap</h5>
+            <img src="img/332.jpg" class="card-img-top" alt="...">
+            <div id="accordion">
+                <span id="body1">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid single-origin coffee nulla assumenda shoreditch et.
+                </span>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <span id="body2">
+                        Nihil anim keffiyeh
+                        helvetica,
+                        craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                        excepteur
+                        butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
+                        synth
+                        nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
+                        quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
+                        on it
+                    </span>
+                </div>
+                <a class="link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                   aria-controls="collapseTwo" style="cursor: pointer;">
+                    Read more
+                </a>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" class="btn btn-light" onclick="like()">Like</button>
+                    <small>no.likes</small>
+                    <button type="button" class="btn btn-light" onclick="dislike()">Dislike</button>
+                    <small>no.dislikes</small>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                    <div class="d-inline">
+                        <small class="align-middle" id="editorName">editorrrr</small>
+                        <small class="align-middle" id="date">dateeeeeeeeee</small>
+                        <small class="align-middle" id="type">typeee</small>
+                    </div>
+                    <div class="d-inline">
+                        <small class="align-middle">views</small>
+                        <small class="align-middle" id="views">0000000</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

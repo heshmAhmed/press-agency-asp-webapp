@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "CreatePost";
+    Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+}
+
+<div class="col-md-8 col-sm-7 col-xs-7 py-5">
+    <form>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="title" required>
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea class="form-control" id="body" rows="7" required></textarea>
+        </div>
+        <div class="custom-file mb-2">
+            <input type="file" class="custom-file-input" id="iamge">
+            <label class="custom-file-label" for="image">Choose image</label>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-success">Create</button>
+            </div>
+        </div>
+    </form>
+</div>

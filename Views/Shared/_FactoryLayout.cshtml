@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html class="h-100">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,14 +19,14 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse justify-content-end"  id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li> <a class="nav-link" href="#">Logout</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container-fluid" style="height: 92.3%;">
+    <div class="container-fluid" style="height: 92.3%">
         <div class="row h-100">
             <div class="col-md-2 col-sm-2 col-xs-2 py-5 bg-dark">
                 <ul class="nav flex-column text-white">
@@ -45,6 +45,8 @@
                 </ul>
             </div>
             <div class="col-md-8 col-sm-7 col-xs-7 py-5">
+                <h2> @ViewBag.Title</h2>
+
                 @RenderBody()
             </div>
         </div>
