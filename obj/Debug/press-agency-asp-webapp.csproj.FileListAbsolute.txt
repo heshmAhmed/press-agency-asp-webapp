@@ -77,3 +77,9 @@ C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.CopyComplete
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.dll
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.pdb
+C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\EntityFramework.dll
+C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\EntityFramework.SqlServer.dll
+C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\EntityFramework.xml
+C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\EntityFramework.SqlServer.xml
+C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.m.resources
+C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.GenerateResource.cache
