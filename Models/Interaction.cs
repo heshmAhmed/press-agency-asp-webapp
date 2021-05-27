@@ -5,7 +5,9 @@ using System.Web;
 
 namespace press_agency_asp_webapp.Models
 {
-    public class Admin : Actor
+    public class Interaction
     {
+        public int Id { get; set; }
+        public bool IsLike { get; set; }
     }
 }

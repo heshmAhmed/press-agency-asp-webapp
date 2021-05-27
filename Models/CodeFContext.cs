@@ -14,8 +14,10 @@ namespace press_agency_asp_webapp.Models
         
         }
 
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Editor> Editors { get; set; }
-        public DbSet<Viewer> Viewers { get; set; }
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        //public DbSet<Question> Questions { get; set; }
+
+
     }
 }
