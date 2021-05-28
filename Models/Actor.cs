@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -23,7 +24,8 @@ namespace press_agency_asp_webapp.Models
         [MaxLength(11)]
         public string Phone { get; set; }
         [Required]
-        public string Role { get; set; }
-    
+        public string Type { get; set; }
+        public DateTime CreateDate { get; set; }
+
     }
 }

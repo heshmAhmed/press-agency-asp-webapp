@@ -83,3 +83,4 @@ C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.pdb
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.InitialMigration.resources
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.GenerateResource.cache
+C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.InitialMigration1.resources

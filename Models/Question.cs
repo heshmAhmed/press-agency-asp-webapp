@@ -9,13 +9,18 @@ namespace press_agency_asp_webapp.Models
     public class Question
     {
         public int Id { get; set; }
+        public int PostId { get; set; }
+        public virtual Post Post { get; set; }
+        public int ViewerId { get; set; }
+        public virtual Viewer Viewer { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
         public string Body { get; set; }
+        public string Answer { get; set; }
         [Required]
-        public DateTime Create_date { get; set; }
-    
+        public DateTime CreateDate { get; set; }
+        
 
     }   
 }

@@ -11,5 +11,6 @@ namespace press_agency_asp_webapp.Models
         [Required]
         public string Username { get; set; }
         public ICollection<Post> Posts { get; set; }
+        
     }
 }
