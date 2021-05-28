@@ -20,13 +20,13 @@ namespace press_agency_asp_webapp.Models
         [Required]
         public bool State { get; set; }
         [Required]
-        public string Type { get; set; }
+        public PostType PostType { get; set; }
+        public int PostTypeId  { get; set; }
         public int EditorId { get; set; }
         public Editor Editor { get; set; }
         public virtual ICollection<Interaction> Interactions { get; set; }
         public virtual ICollection<Viewer> ViewerPosts { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
-
 
         public Post()
         {

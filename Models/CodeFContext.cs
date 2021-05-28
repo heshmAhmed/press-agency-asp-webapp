@@ -16,8 +16,14 @@ namespace press_agency_asp_webapp.Models
         }
 
         public DbSet<Actor> Actors { get; set; }
+        public DbSet<Editor> Editors { get; set; }
+        public DbSet<Viewer> Viewers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Interaction> Interactions { get; set; }
+        public DbSet<UserType>  UserTypes { get; set; }
+        public DbSet<PostType> PostTypes { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
