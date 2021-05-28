@@ -21,8 +21,8 @@ namespace press_agency_asp_webapp.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            //modelBuilder.Entity<Interaction>()
-            //.HasKey(i => new { i.PostId, i.ViewerId });
+            modelBuilder.Entity<Interaction>()
+            .HasKey(i => new { i.PostId, i.ViewerId });
 
             modelBuilder.Entity<Viewer>()
                 .HasMany<Post>(s => s.SavedPosts)

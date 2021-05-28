@@ -8,11 +8,11 @@ namespace press_agency_asp_webapp.Models
 {
     public class Interaction
     {
-        public int Id { get; set; }
-        [Index("IX_FirstAndSecond", 1, IsUnique = true)]
+        //public int Id { get; set; }
+        //[Index("IX_FirstAndSecond", 1, IsUnique = true)]
         public int PostId { get; set; }
         public virtual Post Post { get; set; }
-        [Index("IX_FirstAndSecond", 2, IsUnique = true)]
+        //[Index("IX_FirstAndSecond", 2, IsUnique = true)]
         public int ViewerId { get; set; }
         public virtual Viewer Viewer { get; set; }
         public bool IsLike { get; set; }
