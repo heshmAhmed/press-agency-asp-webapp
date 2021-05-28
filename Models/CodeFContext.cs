@@ -19,7 +19,9 @@ namespace press_agency_asp_webapp.Models
         public DbSet<Interaction> Interactions { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+            //modelBuilder.Entity<Interaction>()
+            //.HasKey(i => new { i.PostId, i.ViewerId });
+
         }
 
 

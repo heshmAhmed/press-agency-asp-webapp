@@ -23,7 +23,7 @@ namespace press_agency_asp_webapp.Models
         public string Type { get; set; }
         public int EditorId { get; set; }
         public Editor Editor { get; set; }
-        public ICollection<Interaction> Interactions { get; set; }
+        public virtual ICollection<Interaction> Interactions { get; set; }
       
     }
 }
