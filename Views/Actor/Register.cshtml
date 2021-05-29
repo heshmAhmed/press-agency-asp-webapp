@@ -1,10 +1,10 @@
-﻿@model press_agency_asp_webapp.ViewModels.ActorTypeViewModel
+﻿@model press_agency_asp_webapp.ViewModels.UserViewModel
 
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_WallLayout.cshtml";
 }
-<script src="~/Scripts/js/Register.js"></script>
+<script type ="module"src="~/Scripts/js/Register.js"></script>
 
 <div class="container py-3">
     <div class="row justify-content-center py-5">
@@ -14,36 +14,36 @@
 
                 <h1 class=" h3 mb-3 font-weight-normal text-center">Please sign up</h1>
                 <div class="form-group">
-                    @Html.EditorFor(model => model.Actor.FirstName, new { htmlAttributes = new { @class = "form-control", 
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", 
                    id = "firstnameInput",
                    placeholder = "Firstname" } })
                 </div>
 
                 <div class="form-group">
-                    @Html.EditorFor(model => model.Actor.LastName, new { htmlAttributes = new { @class = "form-control", 
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", 
                    id="lastnameInput",
                    placeholder = "Lastname" } })
                 </div>
 
                 <div class="form-group">
-                    @Html.EditorFor(model => model.Actor.Email, new { htmlAttributes = new { @class = "form-control", type = "email" 
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" 
                    ,placeholder = "Email", id = "emailInput" } })
                 </div>
 
                 <div class="form-group">
-                    @Html.EditorFor(model => model.Actor.Password, new { htmlAttributes = new { @class = "form-control", type = "password", 
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password", 
                    id="passwordInput",
-                   placeholder = "Password", } })
+                   placeholder = "Password" } })
                 </div>
 
                 <div class="form-group">
-                    @Html.EditorFor(model => model.Actor.Phone, new { htmlAttributes = new { @class = "form-control", type = "number", 
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", type = "number", 
                    id="phoneInput",
                    placeholder = "Phone" } })
                 </div>
 
                 <div class="form-group">
-                    @Html.DropDownListFor(model => model.Actor.UserTypeId, new SelectList(Model.UserTypes, "Id", "Name"), "Select Account Type", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.UserTypeId, new SelectList(Model.UserTypes, "Id", "Name"), "Select Account Type", new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
                 <div class="form-group">

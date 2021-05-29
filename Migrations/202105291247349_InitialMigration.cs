@@ -25,8 +25,7 @@ namespace press_agency_asp_webapp.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.UserTypes", t => t.UserTypeId, cascadeDelete: true)
                 .Index(t => t.Email, unique: true)
-                .Index(t => t.UserTypeId)
-                .Index(t => t.Username, unique: true);
+                .Index(t => t.UserTypeId);
             
             CreateTable(
                 "dbo.UserTypes",
@@ -134,7 +133,6 @@ namespace press_agency_asp_webapp.Migrations
             DropIndex("dbo.Interactions", new[] { "PostId" });
             DropIndex("dbo.Posts", new[] { "EditorId" });
             DropIndex("dbo.Posts", new[] { "PostTypeId" });
-            DropIndex("dbo.Actors", new[] { "Username" });
             DropIndex("dbo.Actors", new[] { "UserTypeId" });
             DropIndex("dbo.Actors", new[] { "Email" });
             DropTable("dbo.SavedPosts");

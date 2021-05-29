@@ -29,7 +29,7 @@ namespace press_agency_asp_webapp.Models
         [MaxLength(11)]
         public string Phone { get; set; }
         
-        public UserType UserType { get; set; }
+        public virtual UserType UserType { get; set; }
         
         [Required]
         public int UserTypeId { get; set; }

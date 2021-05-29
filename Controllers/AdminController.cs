@@ -8,6 +8,10 @@ namespace press_agency_asp_webapp.Controllers
 {
     public class AdminController : Controller
     {
+        public ActionResult Index()
+        {
+            return Posts();
+        } 
         // GET: Admin
         public ActionResult Posts()
         {

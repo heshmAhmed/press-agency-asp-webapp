@@ -1,0 +1,91 @@
+﻿@model press_agency_asp_webapp.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_WallLayout.cshtml";
+}
+<script src="~/Scripts/js/Profile.js"></script>
+
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-3 text-center">
+            <img class="rounded float-right" src="" width="200" alt="">
+        </div>
+        <div class="col-md-8 py-3">
+            <h6>
+                @Model.FirstName
+                @Model.LastName
+            </h6>
+            <br>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="about-tab" data-toggle="tab" aria-controls="about"
+                       aria-selected="true" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="edit-tab" data-toggle="tab" href="#edit" role="tab" aria-controls="edit"
+                       aria-selected="false">Edit profile</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                    <table class="table tab">
+                        <tbody>
+                            <tr id="usernameTR">
+                                <td>Username</td>
+                                <td>@Model.UserName</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td>@Model.Phone</td>
+                            </tr>
+                            <tr>
+                                <td>Role</td>
+                                <td>@Model.UserTypeId</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="edit" role="tabpanel" aria-labelledby="edit-tab">
+                    <br>
+                    <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Firstname" id="firstnameInput"
+                               value="@Model.FirstName"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Lastname" id="lastnameInput"
+                               value="@Model.LastName"
+                               required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" placeholder="Phone number"
+                               id="phoneInput" required value="@Model.Phone">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="updateActor()">Submit</button>
+                    <br/>
+                    <br />
+                    <div class="alert alert-success" role="alert" id="alert" style="display:none">
+                    </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    initialize();
+    function updateActor(){
+        handleForm(@Html.Raw(Json.Encode(Model)));
+    }
+</script>

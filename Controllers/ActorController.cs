@@ -1,5 +1,6 @@
 ﻿using press_agency_asp_webapp.Models;
 using press_agency_asp_webapp.Services;
+using press_agency_asp_webapp.Util;
 using press_agency_asp_webapp.ViewModels;
 using System.Diagnostics;
 using System.Linq;
@@ -12,25 +13,72 @@ namespace press_agency_asp_webapp.Controllers
         CodeFContext Db = new CodeFContext();
         ActorService ActorService = ActorService.CreateActorService(new CodeFContext());
 
-        
+        //[HttpGet]
+        //public ActionResult Posts()
+        //{
+        //    return View(ActorService.GetPosts);
+        //}
+
+        [HttpGet]
+        public ActionResult Profile(Actor actor)
+        {
+            return View(Mapping.MapToUserViewMoel(actor));
+        }
+
+        [HttpPost]
+        public ActionResult Update(UserViewModel userViewModel)
+        {
+            
+            return Json(new { result = 0 });
+        }
+
+
         [HttpGet]
         public ActionResult Register()
         {
-            ActorTypeViewModel ActorTypeViewModel = new ActorTypeViewModel
+            UserViewModel userViewModel = new UserViewModel
             {
                 UserTypes = Db.UserTypes.ToList()
 
             };
-            return View(ActorTypeViewModel);
+            return View(userViewModel);
         }
 
         [HttpPost]
-        public ActionResult Register(ActorTypeViewModel actorTypeViewModel)
+        public ActionResult Register(UserViewModel userViewModel)
         {
-            Debug.WriteLine(actorTypeViewModel.Actor.FirstName);
-            return Redirect("Index");
+            ActorService.CreateActor(userViewModel);
+            return RedirectToAction("LogIn");
         }
 
+        [HttpGet]
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult LogIn(IdentityViewModel identityViewModel)
+        {
+            Actor actor;
+            actor = GeneralUtil.ISEmail(identityViewModel.Identity) ? ActorService.FindActor(identityViewModel) : ActorService.FindEditor(identityViewModel);
+            if (actor != null)
+            {
+                Debug.WriteLine(actor.Email);
+                Debug.WriteLine(actor.Password);
+                Session["user"] = new
+                {
+                    id = actor.Id,
+                    usertype = actor.UserType,
+                };
+                return RedirectToAction("posts", "Actor", actor);
+            }
+            ViewBag.error = "You have entered invalid data !!";
+       
+            return View("LogIn");
+        }
+       
         [HttpPost]
         public ActionResult CheckEmail(string email)
         {

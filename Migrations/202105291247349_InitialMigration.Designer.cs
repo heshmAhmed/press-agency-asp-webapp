@@ -13,7 +13,7 @@ namespace press_agency_asp_webapp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202105281846069_InitialMigration"; }
+            get { return "202105291247349_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

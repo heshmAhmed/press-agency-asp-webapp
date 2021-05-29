@@ -12,7 +12,7 @@ function initialize()
 {
     username = document.getElementById('usernameInput');
     email = document.getElementById('emailInput');
-    dropdown = document.getElementById("Actor_UserTypeId");
+    dropdown = document.getElementById("UserTypeId");
     firstname = document.getElementById("firstnameInput");
     lastname = document.getElementById("lastnameInput");
     phone = document.getElementById('phoneInput');
@@ -25,50 +25,49 @@ function addEventListener() {
     username.addEventListener('change', checkUsername);
     dropdown.addEventListener('change', checkDrobDown);
     email.addEventListener('change', checkEmail);
-    phone.addEventListener('input', validatePhone)
-    password.addEventListener('input', validatePassword)
-    firstname.addEventListener('input', validateFirstname);
-    lastname.addEventListener('input', validateLastname);
+    phone.addEventListener('input', function () { validatePhone(this) })
+    password.addEventListener('input', function () { validatePassword(this) })
+    firstname.addEventListener('input', function () { validateFirstname(this) });
+    lastname.addEventListener('input', function () { validateLastname(this) });
 }
 
-function validateFirstname() {
-    firstname.classList.remove('is-invalid')
-    firstname.classList.remove('is-valid')
-    if (firstname.value != null && firstname.value.length > 2) 
-        firstname.classList.add('is-valid')
+
+function validateFirstname(input) {
+    input.classList.remove('is-invalid')
+    input.classList.remove('is-valid')
+    if (input.value != null && input.value.length > 2)
+        input.classList.add('is-valid')
     else
-        firstname.classList.add('is-invalid')
+        input.classList.add('is-invalid')
 }
 
-function validateLastname() {
-    lastname.classList.remove('is-invalid')
-    lastname.classList.remove('is-valid')
-    if (lastname.value != null && lastname.value.length > 2)
-        lastname.classList.add('is-valid')
+function validateLastname(input) {
+    input.classList.remove('is-invalid')
+    input.classList.remove('is-valid')
+    if (input.value != null && input.value.length > 2)
+        input.classList.add('is-valid')
     else
-        lastname.classList.add('is-invalid')
+        input.classList.add('is-invalid')
 }
 
-function validatePassword() {
+function validatePassword(input) {
     var passReg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    password.classList.remove('is-invalid')
-    password.classList.remove('is-valid')
-    if (passReg.test(password.value))
-        password.classList.add('is-valid')
+    input.classList.remove('is-invalid')
+    input.classList.remove('is-valid')
+    if (passReg.test(input.value))
+        input.classList.add('is-valid')
     else
-        password.classList.add('is-invalid')
+        input.classList.add('is-invalid')
 }
 
-
-function validatePhone() {
-    phone.classList.remove('is-invalid')
-    phone.classList.remove('is-valid')
-    if (phone.value.length === 11)
-        phone.classList.add('is-valid')
+function validatePhone(input) {
+    input.classList.remove('is-invalid')
+    input.classList.remove('is-valid')
+    if (input.value.length === 11)
+        input.classList.add('is-valid')
     else
-        phone.classList.add('is-invalid')
+        input.classList.add('is-invalid')
 }
-
 
 function checkDrobDown() {
     username.classList.remove('is-invalid')
@@ -85,8 +84,8 @@ function checkDrobDown() {
 function checkEmail() {
     email.classList.remove('is-invalid')
     email.classList.remove('is-valid')
-
-    if (email.value != null && email.value.length > 2)
+    var reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (email.value != null && reg.test(email.value))
         $.ajax({
             type: "POST",
             url: "/Actor/CheckEmail",

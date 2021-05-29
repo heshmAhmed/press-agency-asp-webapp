@@ -7,7 +7,6 @@ namespace press_agency_asp_webapp.Models
     public class Editor : Actor
     {
         [MaxLength(450)]
-        [Index(IsUnique = true)]
         [Required]
         public string Username { get; set; }
 

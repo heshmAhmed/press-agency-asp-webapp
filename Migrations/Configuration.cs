@@ -1,7 +1,9 @@
 namespace press_agency_asp_webapp.Migrations
 {
     using System;
+    using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<press_agency_asp_webapp.Models.CodeFContext>
     {
@@ -24,21 +26,9 @@ namespace press_agency_asp_webapp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            //context.UserTypes.Add(new Models.UserType { Name = "admin" });
-            //context.UserTypes.Add(new Models.UserType { Name = "editor" });
-            //context.UserTypes.Add(new Models.UserType { Name = "viewer" });
-            //Models.Editor editor = new Models.Editor
-            //{
-            //    FirstName = "hesham",
-            //    LastName = "ahmed",
-            //    Password = "Pass",
-            //    Email = "hesham@",
-            //    Phone = "Phone",
-            //    Username ="hesham",
-            //    UserTypeId = 2,
-            //    CreateDate = DateTime.Now
-            //};
-            //context.Actors.Add(editor);
+            context.UserTypes.Add(new Models.UserType { Name = "admin" });
+            context.UserTypes.Add(new Models.UserType { Name = "editor" });
+            context.UserTypes.Add(new Models.UserType { Name = "viewer" });
 
         }
     }
