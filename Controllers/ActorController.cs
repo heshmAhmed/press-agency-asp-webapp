@@ -20,16 +20,19 @@ namespace press_agency_asp_webapp.Controllers
         //}
 
         [HttpGet]
-        public ActionResult Profile(Actor actor)
+        public ActionResult Profile()
         {
-            return View(Mapping.MapToUserViewMoel(actor));
+            int id = (int)Session["userId"];
+            return Session["UserType"] == "editor" ? View(Mapping.MapToUserViewModel(ActorService.FindEditor((int)Session["userId"])))
+                 : View(Mapping.MapToUserViewModel(ActorService.FindActor((int)Session["userId"])));  
         }
 
         [HttpPost]
         public ActionResult Update(UserViewModel userViewModel)
         {
-            
-            return Json(new { result = 0 });
+            userViewModel = ActorService.UpdateAcctor((int)Session["userId"], userViewModel);
+            Session["userFullName"] = userViewModel.FirstName + " " + userViewModel.LastName;
+            return Json(userViewModel);
         }
 
 
@@ -67,11 +70,9 @@ namespace press_agency_asp_webapp.Controllers
             {
                 Debug.WriteLine(actor.Email);
                 Debug.WriteLine(actor.Password);
-                Session["user"] = new
-                {
-                    id = actor.Id,
-                    usertype = actor.UserType,
-                };
+                Session["userId"] = actor.Id;
+                Session["userType"] = actor.UserType.Name;
+                Session["userFullName"] = actor.FirstName + " " + actor.LastName;
                 return RedirectToAction("posts", "Actor", actor);
             }
             ViewBag.error = "You have entered invalid data !!";

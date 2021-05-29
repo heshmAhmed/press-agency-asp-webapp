@@ -16,8 +16,15 @@ function initialize() {
     lastnameInput.addEventListener("input", function () { validateLastname(this) });
     passwordInput.addEventListener("input", function () { validatePassword(this) });
     phoneInput.addEventListener("input", function () { validatePhone(this) });
+    checkUsername();
 }
 
+function checkUsername() {
+    tr = document.getElementById("usernameTR");
+    if (document.getElementById("username").innerHTML == null || document.getElementById("username").innerHTML.length == 0) {
+        tr.setAttribute("style", "display:none");
+    }
+}
 
 function validateFirstname(input) {
     input.classList.remove('is-invalid')
@@ -77,6 +84,8 @@ function handleForm(userViewEntity) {
                 document.getElementById("alert").innerText = "Your profile is updated";
                 document.getElementById("alert").classList.add('alert-success');
                 document.getElementById("alert").removeAttribute("style");
+                userViewEntity = response;
+                addNewInfo(userViewEntity);
             }
         }).fail(function(){
             document.getElementById("alert").innerText = "Failed to update your profile !!";
@@ -84,6 +93,15 @@ function handleForm(userViewEntity) {
             document.getElementById("alert").removeAttribute("style");
         });
     }
+}
+
+function addNewInfo(userViewEntity) {
+    document.getElementById("firstname").innerHTML = userViewEntity.FirstName;
+    document.getElementById("lastneme").innerHTML = userViewEntity.LastName;
+    document.getElementById("username").innerHTML = userViewEntity.UserName;
+    document.getElementById("email").innerHTML = userViewEntity.Email;
+    document.getElementById("phone").innerHTML = userViewEntity.Phone;
+
 }
 
 

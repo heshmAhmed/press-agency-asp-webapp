@@ -15,6 +15,7 @@ namespace press_agency_asp_webapp.ViewModels
         public string Phone { get; set; }
         public string UserName { get; set; }
         public int UserTypeId { get; set; }
+        public string UserTypeName { get; set; }
         public ICollection<UserType> UserTypes { get; set; }
     }
 }

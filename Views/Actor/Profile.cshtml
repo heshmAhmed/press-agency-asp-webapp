@@ -12,10 +12,10 @@
             <img class="rounded float-right" src="" width="200" alt="">
         </div>
         <div class="col-md-8 py-3">
-            <h6>
-                @Model.FirstName
-                @Model.LastName
-            </h6>
+            <h5 >
+                <span id="firstname">@Model.FirstName</span>
+                <span id="lastneme">@Model.LastName</span>
+            </h5>
             <br>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
@@ -33,19 +33,19 @@
                         <tbody>
                             <tr id="usernameTR">
                                 <td>Username</td>
-                                <td>@Model.UserName</td>
+                                <td id="username">@Model.UserName</td>
                             </tr>
                             <tr>
                                 <td>Email</td>
-                                <td>@Model.Email</td>
+                                <td id="email">@Model.Email</td>
                             </tr>
                             <tr>
                                 <td>Phone</td>
-                                <td>@Model.Phone</td>
+                                <td id="phone">@Model.Phone</td>
                             </tr>
                             <tr>
                                 <td>Role</td>
-                                <td>@Model.UserTypeId</td>
+                                <td>@Model.UserTypeName</td>
                             </tr>
                         </tbody>
                     </table>
@@ -88,4 +88,5 @@
     function updateActor(){
         handleForm(@Html.Raw(Json.Encode(Model)));
     }
+    
 </script>

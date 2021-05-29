@@ -53,7 +53,7 @@ namespace press_agency_asp_webapp.Util
             };
         }
 
-        public static UserViewModel MapToUserViewMoel(Actor actor)
+        public static UserViewModel MapToUserViewModel(Actor actor)
         {
             return new UserViewModel
             {
@@ -61,7 +61,9 @@ namespace press_agency_asp_webapp.Util
                 LastName = actor.LastName,
                 Email = actor.Email,
                 Phone = actor.Phone,
-                UserTypeId = actor.UserTypeId
+                UserTypeId = actor.UserTypeId,
+                UserTypeName = actor.UserType.Name,
+                UserName = actor.UserType.Name == "editor" ? ((Editor) actor).Username:""
             };
         }
     }
