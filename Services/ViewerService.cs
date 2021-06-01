@@ -100,7 +100,10 @@ namespace press_agency_asp_webapp.Services
         }
 
         public Post FindPost(int postId) {
-            return Db.Posts.Find(postId);
+            Post post = Db.Posts.Find(postId);
+            post.No_views++;
+            Db.SaveChanges();
+            return post;
         }
 
         public Question AddQuestion(Question question)
