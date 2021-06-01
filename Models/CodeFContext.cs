@@ -21,6 +21,7 @@ namespace press_agency_asp_webapp.Models
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Interaction> Interactions { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<UserType>  UserTypes { get; set; }
         public DbSet<PostType> PostTypes { get; set; }
 

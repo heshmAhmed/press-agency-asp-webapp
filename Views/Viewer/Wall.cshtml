@@ -1,87 +1,105 @@
-﻿
+﻿@model press_agency_asp_webapp.ViewModels.WallViewModel
 @{
     ViewBag.Title = "Wall";
     Layout = "~/Views/Shared/_WallLayout.cshtml";
+    bool isViewer = HttpContext.Current.Session["usertype"] != null && HttpContext.Current.Session["userType"].Equals("viewer");
+    bool loggedIn = HttpContext.Current.Session["userId"] != null && (int)HttpContext.Current.Session["userId"] != 0;
+    string disabled = loggedIn && !isViewer ? "disabled" : null;
+    string popon = !loggedIn ? "data-toggle=modal data-target=#exampleModal" : null;
 }
+<script src="~/Scripts/js/Wall.js"></script>
+<div class="container p-5">
+    @foreach (var post in Model.Posts)
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-6 card mb-3">
+                <h5 class="card-title mt-1" id="title">@post.Title</h5>
+                <img src="img/332.jpg" class="card-img-top" alt="...">
+                @if (post.Body.Length < 100)
+                {
+                    <p>@post.Body <a href="/Viewer/Post/@post.Id" @popon>See Post</a></p>
+                }
+                else
+                {
+                    <p>@post.Body.Substring(0, 100) . . . <a href="/Viewer/Post/@post.Id" @popon>Read more</a></p>
+                }
+                <div class="row mb-1">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <button type="button" class="btn btn-light" id="btn_like_@post.Id" onclick="like(@post.Id, @post.No_dislikes, @loggedIn)"
+                                @disabled @popon>
+                            Like
+                        </button>
+                        <small id="no_like_@post.Id">@post.No_likes</small>
 
-<div class="container">
-    <div class="row py-3">
-        <div class="col-2 text-center">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    filter
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <button class="dropdown-item" type="button">Action</button>
-                    <button class="dropdown-item" type="button">Another action</button>
-                    <button class="dropdown-item" type="button">Something else here</button>
+                        <button type="button" class="btn btn-light" id="btn_dislike_@post.Id" onclick="disLike(@post.Id, @post.No_likes, @loggedIn)"
+                                @disabled @popon>
+                            Dislike
+                        </button>
+
+                        <small id="no_dislike_@post.Id">@post.No_dislikes</small>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                        <div class="d-inline">
+                            <small class="align-middle" id="editorName_@post.Id">@post.Editor.Username</small>
+                            <small class="align-middle" id="date_@post.Id">@post.CreateDate.ToString("dd MMM yyyy")</small>
+                            <small class="align-middle" id="type_@post.Id">@post.PostType.Name</small>
+                        </div>
+                        <div class="d-inline">
+                            <small class="align-middle" id="views_@post.Id">@post.No_views</small>
+                            <small class="align-middle">views</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-10 text-right">
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    category
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <button class="dropdown-item" type="button">Action</button>
-                    <button class="dropdown-item" type="button">Another action</button>
-                    <button class="dropdown-item" type="button">Something else here</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6 card mb-3">
-            <h5 class="card-title mt-1" id="title">Title: my first app in bootstrap</h5>
-            <img src="img/332.jpg" class="card-img-top" alt="...">
-            <div id="accordion">
-                <span id="body1">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                    richardson ad squid single-origin coffee nulla assumenda shoreditch et.
-                </span>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                    <span id="body2">
-                        Nihil anim keffiyeh
-                        helvetica,
-                        craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
-                        excepteur
-                        butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic
-                        synth
-                        nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck
-                        quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
-                        on it
-                    </span>
-                </div>
-                <a class="link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                   aria-controls="collapseTwo" style="cursor: pointer;">
-                    Read more
-                </a>
-            </div>
-            <div class="row mb-1">
-                <div class="col-md-6 col-sm-6 col-xs-6">
-                    <button type="button" class="btn btn-light" onclick="like()">Like</button>
-                    <small>no.likes</small>
-                    <button type="button" class="btn btn-light" onclick="dislike()">Dislike</button>
-                    <small>no.dislikes</small>
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
-                    <div class="d-inline">
-                        <small class="align-middle" id="editorName">editorrrr</small>
-                        <small class="align-middle" id="date">dateeeeeeeeee</small>
-                        <small class="align-middle" id="type">typeee</small>
-                    </div>
-                    <div class="d-inline">
-                        <small class="align-middle">views</small>
-                        <small class="align-middle" id="views">0000000</small>
-                    </div>
-                </div>
+    }
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content p-5">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
 
-            </div>
+            <form>
+                @Html.AntiForgeryToken()
 
+                <div class="form-group">
+                    <input class="form-control" placeholder="Username or email" required id="identity" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Password" type="password" required id="password" />
+                </div>
+                <label class="alert alert-danger form-check" id="validationAlert" style="display:none">Account's Invalid</label>
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="submitForm()">Sign in</button>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    var interactions = @Html.Raw(Json.Encode(Model.Interactions));
+    initialize(interactions);
+    function submitForm() {
+        validationAlert = document.getElementById("validationAlert");
+        validationAlert.setAttribute("style", "display:none");
+        $.ajax({
+            type: "POST",
+            url: "/Actor/PopUpLogIn",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                Identity: $('#identity').val(),
+                Password: $('#password').val(),
+            }),
+            success: function (response) {
+                console.log("77")
+                if (response.result)
+                    window.location.href = "/Viewer/Wall";
+                else
+                    validationAlert.removeAttribute("style");
+            }
+        }).fail(function () {
+            validationAlert.removeAttribute("style");
+        });
+    }
+</script>

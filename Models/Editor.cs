@@ -9,7 +9,6 @@ namespace press_agency_asp_webapp.Models
         [MaxLength(450)]
         [Required]
         public string Username { get; set; }
-
         public ICollection<Post> Posts { get; set; }
         
     }

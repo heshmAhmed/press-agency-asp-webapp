@@ -50,11 +50,18 @@ namespace press_agency_asp_webapp.Services
             return Db.UserTypes.Where(UserType => UserType.Id == userTypeId).FirstOrDefault();
         }
 
-        public Actor FindActor(IdentityViewModel identityViewModel)
+        public Actor FindActor(string identity)
         {
-            Actor actor = FindActorByEmail(identityViewModel.Identity);
-            
-            return actor != null && actor.Password == identityViewModel.Password ? actor: null;
+            return GeneralUtil.ISEmail(identity) ? FindActorByEmail(identity) : FindActorByEmail(identity);
+        }
+
+        public Actor FindActor(string identity, string password)
+        {
+            if (GeneralUtil.ISEmail(identity))
+            {
+                return Db.Actors.Where(actor => actor.Email.Equals(identity) && actor.Password.Equals(password)).FirstOrDefault();
+            }
+            return Db.Editors.Where(editor => editor.Username.Equals(identity) && editor.Password.Equals(password)).FirstOrDefault();
         }
 
         public Actor FindActor(int actorId)
@@ -62,7 +69,7 @@ namespace press_agency_asp_webapp.Services
             return Db.Actors.Where(actor => actor.Id == actorId).FirstOrDefault();
         }
 
-        public Editor FindEditor(IdentityViewModel identityViewModel)
+        private Editor FindEditor(IdentityViewModel identityViewModel)
         { 
             Editor editor = FindActorByUsername(identityViewModel.Identity);
             return editor != null && editor.Password == identityViewModel.Password ? editor : null ;
@@ -110,6 +117,7 @@ namespace press_agency_asp_webapp.Services
             Db.SaveChanges();
             return Mapping.MapToUserViewModel(actor);
         }
+
 
     }
 }

@@ -11,10 +11,10 @@ namespace press_agency_asp_webapp.Models
         //public int Id { get; set; }
         //[Index("IX_FirstAndSecond", 1, IsUnique = true)]
         public int PostId { get; set; }
-        public virtual Post Post { get; set; }
+        public Post Post { get; set; }
         //[Index("IX_FirstAndSecond", 2, IsUnique = true)]
         public int ViewerId { get; set; }
-        public virtual Viewer Viewer { get; set; }
+        public Viewer Viewer { get; set; }
         public bool IsLike { get; set; }
         public DateTime CreateDate { get; set; }
 

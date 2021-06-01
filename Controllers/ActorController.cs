@@ -1,10 +1,15 @@
 ﻿using press_agency_asp_webapp.Models;
+using press_agency_asp_webapp.Security;
 using press_agency_asp_webapp.Services;
 using press_agency_asp_webapp.Util;
 using press_agency_asp_webapp.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace press_agency_asp_webapp.Controllers
 {
@@ -13,32 +18,31 @@ namespace press_agency_asp_webapp.Controllers
         CodeFContext Db = new CodeFContext();
         ActorService ActorService = ActorService.CreateActorService(new CodeFContext());
 
-        //[HttpGet]
-        //public ActionResult Posts()
-        //{
-        //    return View(ActorService.GetPosts);
-        //}
-
+        [CustomAuthorize(Roles = "editor,admin,viewer")]
         [HttpGet]
         public ActionResult Profile()
         {
-            int id = (int)Session["userId"];
-            return Session["UserType"] == "editor" ? View(Mapping.MapToUserViewModel(ActorService.FindEditor((int)Session["userId"])))
-                 : View(Mapping.MapToUserViewModel(ActorService.FindActor((int)Session["userId"])));  
+            return Session["UserType"] == "editor" ? View(Mapping.MapToUserViewModel(ActorService.FindEditor(SessionPersister.userId)))
+                 : View(Mapping.MapToUserViewModel(ActorService.FindActor(SessionPersister.userId)));
         }
 
+        [CustomAuthorize(Roles = "editor,admin,viewer")]
         [HttpPost]
         public ActionResult Update(UserViewModel userViewModel)
         {
-            userViewModel = ActorService.UpdateAcctor((int)Session["userId"], userViewModel);
+            userViewModel = ActorService.UpdateAcctor(SessionPersister.userId, userViewModel);
             Session["userFullName"] = userViewModel.FirstName + " " + userViewModel.LastName;
             return Json(userViewModel);
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Register()
         {
+            if (!string.IsNullOrEmpty(SessionPersister.Identity))
+            {
+                return RedirectToAction("wall", "viewer");
+            }
             UserViewModel userViewModel = new UserViewModel
             {
                 UserTypes = Db.UserTypes.ToList()
@@ -47,6 +51,7 @@ namespace press_agency_asp_webapp.Controllers
             return View(userViewModel);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Register(UserViewModel userViewModel)
         {
@@ -54,32 +59,56 @@ namespace press_agency_asp_webapp.Controllers
             return RedirectToAction("LogIn");
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult LogIn()
         {
+            if (!string.IsNullOrEmpty(SessionPersister.Identity))
+            {
+                return RedirectToAction("wall", "viewer");
+            }
             return View();
         }
 
-
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult LogIn(IdentityViewModel identityViewModel)
         {
-            Actor actor;
-            actor = GeneralUtil.ISEmail(identityViewModel.Identity) ? ActorService.FindActor(identityViewModel) : ActorService.FindEditor(identityViewModel);
-            if (actor != null)
+            Actor actor = ActorService.FindActor(identityViewModel.Identity, identityViewModel.Password);
+            if (actor == null)
             {
-                Debug.WriteLine(actor.Email);
-                Debug.WriteLine(actor.Password);
-                Session["userId"] = actor.Id;
-                Session["userType"] = actor.UserType.Name;
-                Session["userFullName"] = actor.FirstName + " " + actor.LastName;
-                return RedirectToAction("posts", "Actor", actor);
+                ViewBag.error = "Account's Invalid";
+                return View("LogIn");
+
             }
-            ViewBag.error = "You have entered invalid data !!";
-       
-            return View("LogIn");
+            Debug.WriteLine(actor.Email);
+            Debug.WriteLine(actor.Password);
+            SessionPersister.Identity = identityViewModel.Identity;
+            SessionPersister.userId = actor.Id;
+            SessionPersister.userType = actor.UserType.Name;
+            SessionPersister.userFullName = actor.FirstName + " " + actor.LastName;
+
+            return RedirectToAction("Wall", "Viewer");
         }
-       
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult PopUpLogIn(IdentityViewModel identityViewModel)
+        {
+            Debug.WriteLine(identityViewModel.Identity);
+            Actor actor = ActorService.FindActor(identityViewModel.Identity, identityViewModel.Password);
+            if (actor == null)
+                return Json(new { result = false });
+
+            Debug.WriteLine(actor.Email);
+            Debug.WriteLine(actor.Password);
+            SessionPersister.Identity = identityViewModel.Identity;
+            SessionPersister.userId = actor.Id;
+            SessionPersister.userType = actor.UserType.Name;
+            SessionPersister.userFullName = actor.FirstName + " " + actor.LastName;
+            return Json(new { result = true });
+        }
+
         [HttpPost]
         public ActionResult CheckEmail(string email)
         {
@@ -96,8 +125,21 @@ namespace press_agency_asp_webapp.Controllers
             return Json(new
             {
                 result = ActorService.CheckUserName(username),
-            }); ; 
+            }); ;
 
         }
+
+        [CustomAuthorize(Roles ="admin,editor,viewer")]
+        [HttpGet]
+        public ActionResult LogOut()
+        {
+            SessionPersister.userFullName = string.Empty;
+            SessionPersister.userId = 0;
+            SessionPersister.userType = string.Empty;
+            SessionPersister.Identity = string.Empty;
+            return RedirectToAction("Wall", "Viewer");
+        }
+
+       
     }
 }

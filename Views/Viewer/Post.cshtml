@@ -1,0 +1,143 @@
+﻿@model press_agency_asp_webapp.ViewModels.PostViewModel
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_WallLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row justify-content-center p-5">
+        <div class="col-md-6 col-sm-6 col-xs-6 card mb-3">
+            <h5 class="card-title mt-1" id="title">@Model.Post.Title</h5>
+            <img src="img/332.jpg" class="card-img-top" alt="...">
+            <p>@Model.Post.Body</p>
+            <div class="row mb-1">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" class="btn btn-light" id="btn_like_@Model.Post.Id" onclick="like(@Model.Post.Id, @Model.Post.No_dislikes, true)">
+                        Like
+                    </button>
+                    <small id="no_like_@Model.Post.Id">@Model.Post.No_likes</small>
+
+                    <button type="button" class="btn btn-light" id="btn_dislike_@Model.Post.Id" onclick="disLike(@Model.Post.Id, @Model.Post.No_likes, true)">
+                        Dislike
+                    </button>
+
+                    <small id="no_dislike_@Model.Post.Id">@Model.Post.No_dislikes</small>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                    <div class="d-inline">
+                        <small class="align-middle" id="editorName_@Model.Post.Id">@Model.Post.Editor.Username</small>
+                        <small class="align-middle" id="date_@Model.Post.Id">@Model.Post.CreateDate.ToString("dd MMM yyyy")</small>
+                        <small class="align-middle" id="type_@Model.Post.Id">@Model.Post.PostType.Name</small>
+                    </div>
+                    <div class="d-inline">
+                        <small class="align-middle" id="views_@Model.Post.Id">@Model.Post.No_views</small>
+                        <small class="align-middle">views</small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6" id="questions_div">
+            @*Qustions*@
+            @foreach (var question in Model.Post.Questions)
+            {
+                <div class="accordion mb-1" id="accordion_@question.Id">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse_@question.Id" aria-expanded="true" aria-controls="collapse_@question.Id">
+                                    <span>@question.Title</span>
+                                    <span class="float-right">@question.CreateDate.ToString("dd MMM yyyy")</span>
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapse_@question.Id" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion_@question.Id">
+                            @if (question.Answer != null)
+                            {
+                                <div class="card-body">
+                                    <span>@question.Answer</span>
+                                    <span class="float-right">@Model.Post.Editor.Username</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div id="new_questions_container">
+
+            </div>
+
+            <form class="form-inline" id="form">
+                <input class="form-control mr-2 mt-1" style="width:91%" placeholder="Your Questions" id="question" />
+                <button class="btn btn-secondary mt-1" type="button" onclick="ask()">Ask</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function ask() {
+        $.ajax({
+            type: "POST",
+            url: "/Viewer/AddQuestion",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                PostId: @Model.Post.Id,
+                Title: $('#question').val()
+           }),
+            success: function (response) {
+                console.log(response) 
+                addQuestion(response.question);
+            }
+        }).fail(function () {
+            console.log(false)
+        });
+    }
+
+    function addQuestion(question) {
+        var card = document.createElement('div');
+        card.classList.add("card");
+        card.classList.add("mb-1");
+
+        var card_header = document.createElement('div');
+        card_header.classList.add("card-header");
+
+        var h2 = document.createElement('h2');
+        h2.classList.add('mb-0');
+
+        var button = document.createElement('button');
+        button.classList.add("btn");
+        button.classList.add("btn-block");
+        button.setAttribute("type", "button");
+
+        var span_title = document.createElement('span');
+        span_title.classList.add("float-left")
+        var span_date = document.createElement('span');
+        span_date.classList.add("float-right")
+
+        span_title.innerHTML = question.Title;
+        span_date.innerHTML = convertToJavaScriptDate(question.CreateDate);
+
+        button.appendChild(span_title);
+        button.appendChild(span_date);
+
+        h2.appendChild(button);
+
+        card_header.appendChild(h2);
+
+        card.appendChild(card_header);
+
+        var new_questions_container = document.getElementById('new_questions_container');
+        new_questions_container.appendChild(card)
+    }
+
+    function convertToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var date = new Date(parseFloat(results[1]));
+
+        return date.toLocaleString('default', { day: '2-digit' }) + " " +
+            date.toLocaleString('default', { month: 'long' }) + " " +
+            date.toLocaleString('default', { year: 'numeric' });
+    }
+</script>
