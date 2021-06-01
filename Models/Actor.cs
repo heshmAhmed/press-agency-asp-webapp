@@ -36,5 +36,7 @@ namespace press_agency_asp_webapp.Models
         
         public DateTime CreateDate { get; set; }
 
+        public string ImagePath { get; set; }
+
     }
 }

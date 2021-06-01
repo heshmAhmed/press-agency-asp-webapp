@@ -27,6 +27,7 @@ namespace press_agency_asp_webapp.Models
         public virtual ICollection<Interaction> Interactions { get; set; }
         public virtual ICollection<Viewer> ViewerPosts { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
+        public string ImagePath { get; set; }
 
         public Post()
         {

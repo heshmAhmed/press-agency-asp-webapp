@@ -63,7 +63,8 @@ namespace press_agency_asp_webapp.Util
                 Phone = actor.Phone,
                 UserTypeId = actor.UserTypeId,
                 UserTypeName = actor.UserType.Name,
-                UserName = actor.UserType.Name == "editor" ? ((Editor) actor).Username:""
+                UserName = actor.UserType.Name == "editor" ? ((Editor) actor).Username:"",
+                ImagePath = actor.ImagePath
             };
         }
     }

@@ -8,13 +8,13 @@
     string popon = !loggedIn ? "data-toggle=modal data-target=#exampleModal" : null;
 }
 <script src="~/Scripts/js/Wall.js"></script>
-<div class="container p-5">
+<div class="container p-3">
     @foreach (var post in Model.Posts)
     {
         <div class="row justify-content-center">
-            <div class="col-md-6 card mb-3">
+            <div class="col-md-7 card mb-3">
                 <h5 class="card-title mt-1" id="title">@post.Title</h5>
-                <img src="img/332.jpg" class="card-img-top" alt="...">
+                <img src="~/Content/images/@post.ImagePath" height="350" class="card-img-top" alt="...">
                 @if (post.Body.Length < 100)
                 {
                     <p>@post.Body <a href="/Viewer/Post/@post.Id" @popon>See Post</a></p>

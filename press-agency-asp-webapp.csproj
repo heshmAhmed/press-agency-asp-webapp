@@ -144,6 +144,10 @@
     <Compile Include="Migrations\202106011319093_update.Designer.cs">
       <DependentUpon>202106011319093_update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106011634357_AddImage.cs" />
+    <Compile Include="Migrations\202106011634357_AddImage.Designer.cs">
+      <DependentUpon>202106011634357_AddImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\EntityValidationErrors.cs" />
     <Compile Include="Models\Actor.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106011319093_update.resx">
       <DependentUpon>202106011319093_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106011634357_AddImage.resx">
+      <DependentUpon>202106011634357_AddImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
