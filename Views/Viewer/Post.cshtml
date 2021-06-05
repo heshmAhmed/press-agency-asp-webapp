@@ -1,8 +1,27 @@
 ﻿@model press_agency_asp_webapp.ViewModels.PostViewModel
 @{
     ViewBag.Title = "Post";
-    Layout = "~/Views/Shared/_WallLayout.cshtml";
+    switch (HttpContext.Current.Session["usertype"])
+    {
+        case "viewer":
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+        case "editor":
+            Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+            break;
+        case "admin":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+    }
+    bool isViewer = HttpContext.Current.Session["usertype"] != null && HttpContext.Current.Session["userType"].Equals("viewer");
+    bool loggedIn = HttpContext.Current.Session["userId"] != null && (int)HttpContext.Current.Session["userId"] != 0;
+    string disabled = loggedIn && !isViewer ? "disabled" : null;
+    string popon = !loggedIn ? "data-toggle=modal data-target=#exampleModal" : null;
 }
+<script src="~/Scripts/js/Wall.js"></script>
 <div class="container-fluid">
     <div class="row justify-content-center p-5">
         <div class="col-md-6 col-sm-6 col-xs-6 card mb-3">
@@ -11,25 +30,29 @@
             <p>@Model.Post.Body</p>
             <div class="row mb-1">
                 <div class="col-md-6 col-sm-6 col-xs-6">
-                    <button type="button" class="btn btn-light" id="btn_like_@Model.Post.Id" onclick="like(@Model.Post.Id, @Model.Post.No_dislikes, true)">
+                    <button type="button" class="btn btn-light" id="btn_like_@Model.Post.Id" onclick="like(@Model.Post.Id, @Model.Post.No_dislikes, @Json.Encode(loggedIn))"
+                            @popon @disabled>
                         Like
                     </button>
                     <small id="no_like_@Model.Post.Id">@Model.Post.No_likes</small>
 
-                    <button type="button" class="btn btn-light" id="btn_dislike_@Model.Post.Id" onclick="disLike(@Model.Post.Id, @Model.Post.No_likes, true)">
+                    <button type="button" class="btn btn-light" id="btn_dislike_@Model.Post.Id" onclick="disLike(@Model.Post.Id, @Model.Post.No_likes, @Json.Encode(loggedIn))"
+                            @popon @disabled>
                         Dislike
                     </button>
 
                     <small id="no_dislike_@Model.Post.Id">@Model.Post.No_dislikes</small>
+                    <button class="btn btn-info align-content-end" type="button" onclick="savePost(@Model.Post.Id, @Json.Encode(loggedIn), @Json.Encode(isViewer))" id="btn_save_@Model.Post.Id" @disabled @popon>Save</button>
+
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
                     <div class="d-inline">
-                        <small class="align-middle" id="editorName_@Model.Post.Id">@Model.Post.Editor.Username</small>
-                        <small class="align-middle" id="date_@Model.Post.Id">@Model.Post.CreateDate.ToString("dd MMM yyyy")</small>
-                        <small class="align-middle" id="type_@Model.Post.Id">@Model.Post.PostType.Name</small>
+                        <small class="align-middle" id="editorName">@Model.Post.Editor.Username</small>
+                        <small class="align-middle" id="date">@Model.Post.CreateDate.ToString("dd MMM yyyy")</small>
+                        <small class="align-middle" id="type">@Model.Post.PostType.Name</small>
                     </div>
                     <div class="d-inline">
-                        <small class="align-middle" id="views_@Model.Post.Id">@Model.Post.No_views</small>
+                        <small class="align-middle" id="views">@Model.Post.No_views</small>
                         <small class="align-middle">views</small>
                     </div>
                 </div>
@@ -68,14 +91,65 @@
             </div>
 
             <form class="form-inline" id="form">
-                <input class="form-control mr-2 mt-1" style="width:91%" placeholder="Your Questions" id="question" />
-                <button class="btn btn-secondary mt-1" type="button" onclick="ask()">Ask</button>
+                <input class="form-control mr-2 mt-1" style="width:91%" placeholder="Your Questions" id="question" @popon @disabled />
+                <button class="btn btn-secondary mt-1" type="button" onclick="ask()" @popon @disabled>Ask</button>
             </form>
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content p-5">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
+
+            <form>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <input class="form-control" placeholder="Username or email" required id="identity" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Password" type="password" required id="password" />
+                </div>
+                <label class="alert alert-danger form-check" id="validationAlert" style="display:none">Account's Invalid</label>
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="submitForm()">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
+    var interaction = @Html.Raw(Json.Encode(Model.Interaction));
+    var isSaved = @Html.Raw(Json.Encode(Model.IsSaved));
+    console.log(@Model.Post.Id)
+    setLike();
+    setSave();
+
+    function setLike() {
+        if (interaction == null)
+            return
+        if (interaction.IsLike) {
+            document.getElementById("btn_like_@Model.Post.Id").classList.remove("btn-light");
+            document.getElementById("btn_like_@Model.Post.Id").classList.add("btn-primary");
+        }
+        else {
+            document.getElementById("btn_dislike_@Model.Post.Id").classList.remove("btn-light");
+            document.getElementById("btn_dislike_@Model.Post.Id").classList.add("btn-primary");
+        }
+    }
+    function setSave() {
+        if (isSaved) {
+            document.getElementById("btn_save_@Model.Post.Id").classList.add("disabled");
+            document.getElementById("btn_save_@Model.Post.Id").innerHTML = "saved";
+        }
+    }
+
     function ask() {
+        if (!@Json.Encode(loggedIn))
+            return;
         $.ajax({
             type: "POST",
             url: "/Viewer/AddQuestion",
@@ -84,9 +158,9 @@
             data: JSON.stringify({
                 PostId: @Model.Post.Id,
                 Title: $('#question').val()
-           }),
+            }),
             success: function (response) {
-                console.log(response) 
+                console.log(response)
                 addQuestion(response.question);
             }
         }).fail(function () {

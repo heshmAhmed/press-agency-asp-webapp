@@ -1,27 +1,75 @@
-﻿
+﻿@model press_agency_asp_webapp.ViewModels.CreatePostViewModel
+
 @{
     ViewBag.Title = "CreatePost";
-    Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+    ViewBag.Title = "Post";
+    switch (HttpContext.Current.Session["usertype"])
+    {
+        case "viewer":
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+        case "editor":
+            Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+            break;
+        case "admin":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+    }
 }
 
 <div class="col-md-8 col-sm-7 col-xs-7 py-5">
-    <form>
+    @using (Html.BeginForm("CreatePost", "Editor", FormMethod.Post, new
+    {
+        @class = "form-horizontal",
+        role = "form",
+        enctype = "multipart/form-data",
+    }))
+    {
+        @Html.AntiForgeryToken()
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="title" required>
+            @Html.EditorFor(model => model.Title, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   id = "title",
+                   required = "true",
+               }
+           })
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea class="form-control" id="body" rows="7" required></textarea>
+            @Html.TextAreaFor(model => model.Body, new
+       {
+           @class = "form-control",
+           required = "true",
+           id = "body",
+           style ="height:300px"
+       })
+
         </div>
         <div class="custom-file mb-2">
-            <input type="file" class="custom-file-input" id="iamge">
+            <input type="file" class="custom-file-input" name="postImage"
+                   value="@Model.PostImage"
+                   id="image"
+                   required>
             <label class="custom-file-label" for="image">Choose image</label>
         </div>
-        <div class="form-group row">
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.PostTypeId, new SelectList(Model.PostTypes, "Id", "Name"), "Select post type", new { htmlAttributes = new { @class = "form-control", required = "true" } })
+        </div><div class="form-group row">
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-success">Create</button>
             </div>
         </div>
-    </form>
+        <label class="text text-info">@ViewBag.state</label>
+    }
 </div>
+
+<script>
+</script>

@@ -1,4 +1,5 @@
-﻿using press_agency_asp_webapp.Services;
+﻿using press_agency_asp_webapp.Models;
+using press_agency_asp_webapp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace press_agency_asp_webapp.Security
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
-        private ActorService ActorService = ActorService.CreateActorService(new Models.CodeFContext());
+        private ActorService ActorService = ActorService.CreateActorService(CodeFContext.CreateCodeFContext());
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (string.IsNullOrEmpty(SessionPersister.Identity))

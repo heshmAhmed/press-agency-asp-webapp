@@ -22,7 +22,7 @@ namespace press_agency_asp_webapp.Services
 
         public ICollection<Post> GetPosts()
         {
-            return Db.Posts.Where(post => post.State).ToList();
+            return Db.Posts.Where(post => post.State == true).ToList();
         }
 
         public Interaction Interact(int viewerId,int postId, bool islike)
@@ -74,7 +74,9 @@ namespace press_agency_asp_webapp.Services
         {
             try
             {
-                Interaction interaction = Db.Interactions.Find(postId, viewerId);
+                Interaction interaction = Db.Interactions.Where(row => row.ViewerId == viewerId && row.PostId == postId).FirstOrDefault();
+                Debug.WriteLine(viewerId);
+                Debug.WriteLine(postId);
                 Post post = Db.Posts.Find(postId);
                 if (interaction.IsLike)
                     post.No_likes = post.No_likes == 0 ? 0 : post.No_likes - 1;
@@ -85,7 +87,6 @@ namespace press_agency_asp_webapp.Services
                 return true;
             }catch(Exception e)
             {
-                Debug.WriteLine(e);
                 return false;
             }
         }
@@ -94,6 +95,7 @@ namespace press_agency_asp_webapp.Services
         {
             return Db.Interactions.Where(row => row.ViewerId == viewerId).ToList();
         }
+
         public ICollection<Post> SearchForPosts(string searchitem)
         {
             return Db.Posts.Where(post => post.Editor.Username == searchitem || post.PostType.Name == searchitem || post.Title.Contains(searchitem)).ToList();
@@ -101,8 +103,10 @@ namespace press_agency_asp_webapp.Services
 
         public Post FindPost(int postId) {
             Post post = Db.Posts.Find(postId);
-            post.No_views++;
-            Db.SaveChanges();
+            if (post != null) {
+                post.No_views++;
+                Db.SaveChanges();
+            }
             return post;
         }
 
@@ -117,6 +121,43 @@ namespace press_agency_asp_webapp.Services
             catch (Exception e)
             {
                 return null;
+            }
+        }
+
+        public bool SavePost(int viewerId, int postId)
+        {
+            try
+            {
+                Post post = Db.Posts.Find(postId);
+                Viewer viewer = Db.Viewers.Find(viewerId);
+
+                post.SavedPosts.Add(viewer);
+                Db.SaveChanges();
+                return true;
+            }catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        public List<Post> GetSavedPosts(int viewerId)
+        {
+            Viewer viewer = Db.Viewers.Find(viewerId);
+            return viewer.SavedPosts.ToList();
+        }
+
+        public bool unSavePost(int postId, int viewerId)
+        {
+            try {
+                Post post = Db.Posts.Find(postId);
+                Viewer viewer = Db.Viewers.Find(viewerId);
+
+                viewer.SavedPosts.Remove(post);
+                Db.SaveChanges();
+                return true;
+            }catch(Exception e)
+            {
+                return false;
             }
         }
     }

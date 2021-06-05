@@ -3,7 +3,7 @@ namespace press_agency_asp_webapp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class InitialMigrations : DbMigration
     {
         public override void Up()
         {
@@ -19,6 +19,7 @@ namespace press_agency_asp_webapp.Migrations
                         Phone = c.String(nullable: false, maxLength: 11),
                         UserTypeId = c.Int(nullable: false),
                         CreateDate = c.DateTime(nullable: false),
+                        ImagePath = c.String(),
                         Username = c.String(maxLength: 450),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
@@ -47,9 +48,10 @@ namespace press_agency_asp_webapp.Migrations
                         No_likes = c.Int(nullable: false),
                         No_dislikes = c.Int(nullable: false),
                         CreateDate = c.DateTime(nullable: false),
-                        State = c.Boolean(nullable: false),
+                        State = c.Boolean(),
                         PostTypeId = c.Int(nullable: false),
                         EditorId = c.Int(nullable: false),
+                        ImagePath = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Actors", t => t.EditorId, cascadeDelete: true)
@@ -78,9 +80,8 @@ namespace press_agency_asp_webapp.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         PostId = c.Int(nullable: false),
-                        ViewerId = c.Int(nullable: false),
+                        ViewerId = c.Int(nullable: true),
                         Title = c.String(nullable: false),
-                        Body = c.String(nullable: false),
                         Answer = c.String(),
                         CreateDate = c.DateTime(nullable: false),
                     })
@@ -108,7 +109,7 @@ namespace press_agency_asp_webapp.Migrations
                     })
                 .PrimaryKey(t => new { t.ViewerId, t.PostId })
                 .ForeignKey("dbo.Actors", t => t.ViewerId)
-                .ForeignKey("dbo.Posts", t => t.PostId)
+                .ForeignKey("dbo.Posts", t => t.PostId, cascadeDelete:true)
                 .Index(t => t.ViewerId)
                 .Index(t => t.PostId);
             

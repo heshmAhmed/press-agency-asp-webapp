@@ -1,5 +1,5 @@
 ﻿hasinteraction = true
-function initialize(interactions) {
+function setInteractions(interactions) {
     if (interactions == null)
         return ;
     for (i = 0; i < interactions.length; i++) {
@@ -15,11 +15,25 @@ function initialize(interactions) {
             document.getElementById("btn_dislike_" + postId).classList.add("btn-primary")
         }
     }
+    
 }
+
+function setSavedPosts(savedPostsIds) {
+    if (savedPostsIds == null)
+        return;
+    for (i = 0; i < savedPostsIds.length; i++) {
+        var btn = document.getElementById("btn_save_" + savedPostsIds[i]);
+        console.log(savedPostsIds[i])
+        btn.innerHTML == "saved";
+        btn.classList.add("disabled");
+    }
+}
+
+
 
 function like(postId, defualtnodislikes, loggedIn) {
     if (!loggedIn)
-        return
+        return;
     btn_like = document.getElementById("btn_like_" + postId);
     btn_dislike = document.getElementById("btn_dislike_" + postId);
     nolikes = document.getElementById("no_like_" + postId);
@@ -119,4 +133,47 @@ function decreaseNoInteracts(componenet, defualtno) {
         componenet.innerText = componenet.innerText == 0 ? 0 : componenet.innerText - 1;
     else
         componenet.innerText = defualtno
+}
+
+
+function submitForm() {
+    validationAlert = document.getElementById("validationAlert");
+    validationAlert.setAttribute("style", "display:none");
+    $.ajax({
+        type: "POST",
+        url: "/Actor/PopUpLogIn",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+            Identity: $('#identity').val(),
+            Password: $('#password').val(),
+        }),
+        success: function (response) {
+            if (response.result)
+                window.location.href = "";
+            else
+                validationAlert.removeAttribute("style");
+        }
+    }).fail(function () {
+        validationAlert.removeAttribute("style");
+    });
+}
+
+function savePost(postId, loggedIn, isViewer) {
+    var btn = document.getElementById("btn_save_" + postId);
+    if (!loggedIn || !isViewer || btn.classList.contains("disabled"))
+        return;
+    btn.innerHTML = "Saved";
+    btn.classList.add("disabled");
+    $.ajax({
+        type: "Get",
+        url: "/Viewer/SavePost",
+        dataType: "json",
+        data: {
+            postId: postId
+        },
+        success: function (response) {
+            console.log(response)
+        }
+    });
 }

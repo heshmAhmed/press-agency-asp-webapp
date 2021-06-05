@@ -15,6 +15,8 @@ namespace press_agency_asp_webapp.Models
         public Viewer()
         {
             this.SavedPosts = new HashSet<Post>();
+            this.Interactions = new HashSet<Interaction>();
+            this.Questions = new HashSet<Question>();
         }
     }
 }

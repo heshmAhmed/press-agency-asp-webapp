@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
 
 namespace press_agency_asp_webapp.Models
 {
+
     public class CodeFContext : DbContext
     {
-        public CodeFContext()
-            : base("Name=DefaultConnection")
+        private static CodeFContext Instanse = null;
+
+        public CodeFContext(): base("Name=DefaultConnection") { }
+
+        public static CodeFContext CreateCodeFContext()
         {
-        
+            if (Instanse == null)
+                Instanse = new CodeFContext();
+            return Instanse;
         }
 
         public DbSet<Actor> Actors { get; set; }
@@ -33,7 +35,7 @@ namespace press_agency_asp_webapp.Models
 
             modelBuilder.Entity<Viewer>()
                 .HasMany<Post>(s => s.SavedPosts)
-                .WithMany(c => c.ViewerPosts)
+                .WithMany(c => c.SavedPosts)
                 .Map(cs =>
                 {
                     cs.MapLeftKey("ViewerId");
@@ -42,7 +44,5 @@ namespace press_agency_asp_webapp.Models
                     
                 });
         }
-
-
     }
 }

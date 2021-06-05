@@ -15,14 +15,14 @@ namespace press_agency_asp_webapp.Controllers
 {
     public class ActorController : Controller
     {
-        CodeFContext Db = new CodeFContext();
-        ActorService ActorService = ActorService.CreateActorService(new CodeFContext());
+        CodeFContext Db = CodeFContext.CreateCodeFContext();
+        ActorService ActorService = ActorService.CreateActorService(CodeFContext.CreateCodeFContext());
 
         [CustomAuthorize(Roles = "editor,admin,viewer")]
         [HttpGet]
         public ActionResult Profile()
         {
-            return Session["UserType"] == "editor" ? View(Mapping.MapToUserViewModel(ActorService.FindEditor(SessionPersister.userId)))
+            return Session["UserType"].Equals("editor") ? View(Mapping.MapToUserViewModel(ActorService.FindEditor(SessionPersister.userId)))
                  : View(Mapping.MapToUserViewModel(ActorService.FindActor(SessionPersister.userId)));
         }
 
@@ -39,7 +39,7 @@ namespace press_agency_asp_webapp.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            if (!string.IsNullOrEmpty(SessionPersister.Identity))
+            if (!string.IsNullOrEmpty(SessionPersister.Identity) && !SessionPersister.userType.Equals("admin"))
             {
                 return RedirectToAction("wall", "viewer");
             }
@@ -53,9 +53,16 @@ namespace press_agency_asp_webapp.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Register(UserViewModel userViewModel)
+        public ActionResult Register(UserViewModel userViewModel, HttpPostedFileBase userImage)
         {
+            string path = Server.MapPath("~/Content/images");
+            string imgName = GeneralUtil.upload_image(path, userImage);
+            userViewModel.ImagePath = imgName;
             ActorService.CreateActor(userViewModel);
+            if (SessionPersister.userType.Equals("admin"))
+            {
+                return RedirectToAction("Users","Admin");
+            }
             return RedirectToAction("LogIn");
         }
 
@@ -81,8 +88,6 @@ namespace press_agency_asp_webapp.Controllers
                 return View("LogIn");
 
             }
-            Debug.WriteLine(actor.Email);
-            Debug.WriteLine(actor.Password);
             SessionPersister.Identity = identityViewModel.Identity;
             SessionPersister.userId = actor.Id;
             SessionPersister.userType = actor.UserType.Name;
@@ -95,13 +100,9 @@ namespace press_agency_asp_webapp.Controllers
         [HttpPost]
         public ActionResult PopUpLogIn(IdentityViewModel identityViewModel)
         {
-            Debug.WriteLine(identityViewModel.Identity);
             Actor actor = ActorService.FindActor(identityViewModel.Identity, identityViewModel.Password);
             if (actor == null)
                 return Json(new { result = false });
-
-            Debug.WriteLine(actor.Email);
-            Debug.WriteLine(actor.Password);
             SessionPersister.Identity = identityViewModel.Identity;
             SessionPersister.userId = actor.Id;
             SessionPersister.userType = actor.UserType.Name;
@@ -140,6 +141,14 @@ namespace press_agency_asp_webapp.Controllers
             return RedirectToAction("Wall", "Viewer");
         }
 
-       
+        public ActionResult UpdateImage(HttpPostedFileBase userImage)
+        {
+            string path = Server.MapPath("~/Content/images");
+            string imgName = GeneralUtil.upload_image(path, userImage);
+            ActorService.UpdateImage(SessionPersister.userId, imgName);
+            return RedirectToAction("Profile");
+        }
+
+      
     }
 }

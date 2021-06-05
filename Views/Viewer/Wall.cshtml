@@ -1,7 +1,23 @@
 ﻿@model press_agency_asp_webapp.ViewModels.WallViewModel
+
 @{
     ViewBag.Title = "Wall";
-    Layout = "~/Views/Shared/_WallLayout.cshtml";
+    ViewBag.Title = "Post";
+    switch (HttpContext.Current.Session["usertype"])
+    {
+        case "viewer":
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+        case "editor":
+            Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+            break;
+        case "admin":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_WallLayout.cshtml";
+            break;
+    }
     bool isViewer = HttpContext.Current.Session["usertype"] != null && HttpContext.Current.Session["userType"].Equals("viewer");
     bool loggedIn = HttpContext.Current.Session["userId"] != null && (int)HttpContext.Current.Session["userId"] != 0;
     string disabled = loggedIn && !isViewer ? "disabled" : null;
@@ -12,31 +28,32 @@
     @foreach (var post in Model.Posts)
     {
         <div class="row justify-content-center">
-            <div class="col-md-7 card mb-3">
+            <div class="col-md-7 card mb-3 pt-1">
                 <h5 class="card-title mt-1" id="title">@post.Title</h5>
                 <img src="~/Content/images/@post.ImagePath" height="350" class="card-img-top" alt="...">
                 @if (post.Body.Length < 100)
                 {
-                    <p>@post.Body <a href="/Viewer/Post/@post.Id" @popon>See Post</a></p>
+                    <p>@post.Body <a href="/Viewer/Post/@post.Id">See Post</a></p>
                 }
                 else
                 {
-                    <p>@post.Body.Substring(0, 100) . . . <a href="/Viewer/Post/@post.Id" @popon>Read more</a></p>
+                    <p>@post.Body.Substring(0, 100) . . . <a href="/Viewer/Post/@post.Id">Read more</a></p>
                 }
                 <div class="row mb-1">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <button type="button" class="btn btn-light" id="btn_like_@post.Id" onclick="like(@post.Id, @post.No_dislikes, @loggedIn)"
+                        <button type="button" class="btn btn-light" id="btn_like_@post.Id" onclick="like(@post.Id, @post.No_dislikes, @Json.Encode(loggedIn), @Json.Encode(isViewer))"
                                 @disabled @popon>
                             Like
                         </button>
                         <small id="no_like_@post.Id">@post.No_likes</small>
 
-                        <button type="button" class="btn btn-light" id="btn_dislike_@post.Id" onclick="disLike(@post.Id, @post.No_likes, @loggedIn)"
+                        <button type="button" class="btn btn-light" id="btn_dislike_@post.Id" onclick="disLike(@post.Id, @post.No_likes, @Json.Encode(loggedIn), @Json.Encode(isViewer))"
                                 @disabled @popon>
                             Dislike
                         </button>
-
                         <small id="no_dislike_@post.Id">@post.No_dislikes</small>
+                        <button class="btn btn-info align-content-end" type="button" onclick="savePost(@post.Id, @Json.Encode(loggedIn), @Json.Encode(isViewer))" id="btn_save_@post.Id" @disabled @popon>Save</button>
+
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
                         <div class="d-inline">
@@ -72,34 +89,14 @@
                 <label class="alert alert-danger form-check" id="validationAlert" style="display:none">Account's Invalid</label>
                 <button class="btn btn-lg btn-primary btn-block" type="button" onclick="submitForm()">Sign in</button>
             </form>
+            <a href="/Actor/Register">New user?</a>
         </div>
     </div>
 </div>
 
 <script>
     var interactions = @Html.Raw(Json.Encode(Model.Interactions));
-    initialize(interactions);
-    function submitForm() {
-        validationAlert = document.getElementById("validationAlert");
-        validationAlert.setAttribute("style", "display:none");
-        $.ajax({
-            type: "POST",
-            url: "/Actor/PopUpLogIn",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({
-                Identity: $('#identity').val(),
-                Password: $('#password').val(),
-            }),
-            success: function (response) {
-                console.log("77")
-                if (response.result)
-                    window.location.href = "/Viewer/Wall";
-                else
-                    validationAlert.removeAttribute("style");
-            }
-        }).fail(function () {
-            validationAlert.removeAttribute("style");
-        });
-    }
+    var savedPostsIds = @Html.Raw(Json.Encode(Model.SavedPostsIds));
+    setInteractions(interactions);
+    setSavedPosts(savedPostsIds);
 </script>

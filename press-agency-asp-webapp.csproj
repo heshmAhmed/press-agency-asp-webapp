@@ -136,20 +136,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202105291247349_InitialMigration.cs" />
-    <Compile Include="Migrations\202105291247349_InitialMigration.Designer.cs">
-      <DependentUpon>202105291247349_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202106011319093_update.cs" />
-    <Compile Include="Migrations\202106011319093_update.Designer.cs">
-      <DependentUpon>202106011319093_update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202106011634357_AddImage.cs" />
-    <Compile Include="Migrations\202106011634357_AddImage.Designer.cs">
-      <DependentUpon>202106011634357_AddImage.cs</DependentUpon>
+    <Compile Include="Migrations\202106050718497_InitialMigrations.cs" />
+    <Compile Include="Migrations\202106050718497_InitialMigrations.Designer.cs">
+      <DependentUpon>202106050718497_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Migrations\EntityValidationErrors.cs" />
     <Compile Include="Models\Actor.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\CodeFContext.cs" />
@@ -165,12 +156,16 @@
     <Compile Include="Security\CustomPrincipal.cs" />
     <Compile Include="Security\SessionPersister.cs" />
     <Compile Include="Services\ActorService.cs" />
+    <Compile Include="Services\AdminService.cs" />
+    <Compile Include="Services\EditorService.cs" />
     <Compile Include="Services\ViewerService.cs" />
     <Compile Include="Util\GeneralUtil.cs" />
     <Compile Include="Util\Mapping.cs" />
+    <Compile Include="ViewModels\CreatePostViewModel.cs" />
     <Compile Include="ViewModels\InteractionViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\SavedPostsViewModel.cs" />
     <Compile Include="ViewModels\SearchModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\IdentityViewModel.cs" />
@@ -320,14 +315,22 @@
     <Content Include="Views\Shared\_FactoryLayout.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\Viewer\Wall.cshtml" />
-    <Content Include="Views\Editor\CreatePost.cshtml" />
     <Content Include="Views\Admin\Posts.cshtml" />
-    <Content Include="Views\Admin\Requests.cshtml" />
-    <Content Include="Views\Actor\Register.cshtml" />
-    <Content Include="Views\Actor\LogIn.cshtml" />
-    <Content Include="Views\Actor\Profile.cshtml" />
+    <Content Include="Views\Admin\PostRequests.cshtml" />
+    <Content Include="Views\Shared\Profile.cshtml" />
     <Content Include="Views\AccessDenied\Index.cshtml" />
     <Content Include="Views\Viewer\Post.cshtml" />
+    <Content Include="Views\Viewer\SavedPosts.cshtml" />
+    <Content Include="Views\Editor\Questions.cshtml" />
+    <Content Include="Views\View.cshtml" />
+    <Content Include="Views\Editor\CreatePost.cshtml" />
+    <Content Include="Views\Editor\History.cshtml" />
+    <Content Include="Views\Editor\UpdatePost.cshtml" />
+    <Content Include="Views\Admin\UpdatePost.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Shared\LogIn.cshtml" />
+    <Content Include="Views\Shared\Register.cshtml" />
+    <Content Include="Views\Admin\AddPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -342,14 +345,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202105291247349_InitialMigration.resx">
-      <DependentUpon>202105291247349_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202106011319093_update.resx">
-      <DependentUpon>202106011319093_update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202106011634357_AddImage.resx">
-      <DependentUpon>202106011634357_AddImage.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202106050718497_InitialMigrations.resx">
+      <DependentUpon>202106050718497_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

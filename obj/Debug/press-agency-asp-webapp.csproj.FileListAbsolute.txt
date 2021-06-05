@@ -76,12 +76,10 @@ C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\System.Web.WebPages.Razor.xml
 C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\Newtonsoft.Json.xml
 C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\Antlr3.Runtime.pdb
 C:\Users\hesha\Desktop\press-agency-asp-webapp\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csprojAssemblyReference.cache
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.CoreCompileInputs.cache
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.CopyComplete
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.dll
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.pdb
-C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.InitialMigration.resources
+C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csprojAssemblyReference.cache
+C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.InitialMigrations.resources
 C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press-agency-asp-webapp.csproj.GenerateResource.cache
-C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.update.resources
-C:\Users\hesha\Desktop\press-agency-asp-webapp\obj\Debug\press_agency_asp_webapp.Migrations.AddImage.resources

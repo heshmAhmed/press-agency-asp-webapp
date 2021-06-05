@@ -1,0 +1,65 @@
+﻿@model press_agency_asp_webapp.ViewModels.WallViewModel
+@{
+    ViewBag.Title = "Requests";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<div class="container p-3">
+    @foreach (var post in Model.Posts)
+    {
+        <div class="row justify-content-center" id="post_@post.Id">
+            <div class="col-md-7 card mb-3 pt-1">
+                <h5 class="card-title mt-1" id="title">@post.Title</h5>
+                <img src="~/Content/images/@post.ImagePath" height="350" class="card-img-top" alt="...">
+                @if (post.Body.Length < 100)
+                {
+                    <p>@post.Body <a href="/Viewer/Post/@post.Id">See Post</a></p>
+                }
+                else
+                {
+                    <p>@post.Body.Substring(0, 100) . . . <a href="/Viewer/Post/@post.Id">Read more</a></p>
+                }
+            <div class="row mb-1">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <button type="button" class="btn btn-success" id="btn_accept_@post.Id" onclick="accept(@post.Id)">Accept</button>
+                    <button type="button" class="btn btn-danger" id="btn_reject_@post.Id" onclick="reject(@post.Id)">Reject</button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                    <div class="d-inline">
+                        <small class="align-middle">@post.Editor.Username</small>
+                        <small class="align-middle">@post.CreateDate.ToString("dd MMM yyyy")</small>
+                        <small class="align-middle">@post.PostType.Name</small>
+                    </div>
+                    <div class="d-inline">
+                        <small class="align-middle">@post.No_views</small>
+                        <small class="align-middle">views</small>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    function accept(postId) {
+        removePost(postId)
+        $.ajax({
+            type: "GET",
+            url: "/Admin/AcceptPost",
+            dataType: "json",
+            data: { postId: postId }
+        });
+    }
+    function reject(postId) {
+        removePost(postId)
+        $.ajax({
+            type: "GET",
+            url: "/Admin/RejectPost",
+            dataType: "json",
+            data: { postId: postId }
+        });
+    }
+    function removePost(postId) {
+        document.getElementById("post_" + postId).remove();
+    }
+</script>

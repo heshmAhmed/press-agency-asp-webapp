@@ -1,0 +1,90 @@
+﻿@model IEnumerable<press_agency_asp_webapp.Models.Post>
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+}
+
+
+<table class="table">
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.No_views)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.No_likes)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.No_dislikes)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.PostType)
+            </th>
+            <th scope="col">
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr scope="row" id="tr_@item.Id">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_views)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_likes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.No_dislikes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostType.Name)
+                </td>
+                <td>
+                    <a href="/Editor/UpdatePost/@item.Id"    
+                       class="btn btn-secondary mb-1" onclick="edit(@item.Id)">Edit</a>
+                    <a href="/Viewer/Post/@item.Id" class="btn btn-info mb-1">Detailes</a>
+                    <button class="btn btn-danger" onclick="del(@item.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+<script>
+    function edit(postId) { }
+
+    function del(postId) {
+        document.getElementById("tr_" + postId).remove();
+        $.ajax({
+            type: "GET",
+            url: "/Editor/DeletePost",
+            dataType: "json",
+            data: { postId: postId }
+        });
+    }
+</script>

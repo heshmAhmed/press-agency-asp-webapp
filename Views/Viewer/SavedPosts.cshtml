@@ -1,0 +1,86 @@
+﻿@model press_agency_asp_webapp.ViewModels.SavedPostsViewModel
+
+@{
+    ViewBag.Title = "SavedPosts";
+    Layout = "~/Views/Shared/_WallLayout.cshtml";
+}
+
+<div class="container p-3">
+    @foreach (var post in Model.SavedPosts)
+    {
+        <div class="row justify-content-center" id="post_@post.Id" style="cursor: pointer" onclick="location.href = '/Viewer/Post/@post.Id';">
+            <div class="col-md-10 card mb-3 pt-1">
+                <h5 class="card-title mt-1" id="title">@post.Title</h5>
+                <p>@post.Body.Substring(0, post.Body.Length / 2) . . . <a href="/Viewer/Post/@post.Id">Read more</a></p>
+                <div class="row mb-1">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <button type="button" class="btn btn-light" id="btn_like_@post.Id"disabled>
+                            Like
+                        </button>
+                        <small id="no_like_@post.Id">@post.No_likes</small>
+
+                        <button type="button" class="btn btn-light" disabled id="btn_dislike_@post.Id">
+                            DisLike
+                        </button>
+                        <small id="no_dislike_@post.Id">@post.No_dislikes</small>
+                        <button class="btn btn-info align-content-end" type="button" onclick="unSave(@post.Id)" id="btn_save_@post.Id">UnSave</button>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                        <div class="d-inline">
+                            <small class="align-middle" id="editorName_@post.Id">@post.Editor.Username</small>
+                            <small class="align-middle" id="date_@post.Id">@post.CreateDate.ToString("dd MMM yyyy")</small>
+                            <small class="align-middle" id="type_@post.Id">@post.PostType.Name</small>
+                        </div>
+                        <div class="d-inline">
+                            <small class="align-middle" id="views_@post.Id">@post.No_views</small>
+                            <small class="align-middle">views</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    var interactions = @Html.Raw(Json.Encode(Model.Interactions));
+    setInteractions(interactions);
+
+    function unSave(postId) {
+        removePost(postId);
+        $.ajax({
+            type: "GET",
+            url: "/Viewer/UnSavePost/",
+            dataType: "json",
+            data: { postId: postId }
+        }).fail(function () {
+            console.log(false)
+        });
+    }
+
+    function removePost(postId) {
+        post = document.getElementById("post_" + postId);
+        post.remove()
+    }
+
+    function setInteractions(interactions) {
+        if (interactions == null)
+            return;
+        for (i = 0; i < interactions.length; i++) {
+            postId = interactions[i].PostID;
+            IsLike = interactions[i].IsLike;
+            if (IsLike) {
+                document.getElementById("btn_like_" + postId).classList.remove("btn-light")
+                document.getElementById("btn_like_" + postId).classList.add("btn-primary")
+            }
+            else {
+                document.getElementById("btn_dislike_" + postId).classList.remove("btn-light")
+
+                document.getElementById("btn_dislike_" + postId).classList.add("btn-primary")
+            }
+        }
+    }
+
+</script>
+

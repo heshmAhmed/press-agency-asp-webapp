@@ -1,0 +1,121 @@
+﻿@model IEnumerable<press_agency_asp_webapp.ViewModels.PostViewModel>
+@{
+    ViewBag.Title = "Questions";
+    Layout = "~/Views/Shared/_FactoryLayout.cshtml";
+}
+<div class="container-fluid p-5">
+
+    @foreach (var postViewModel in Model)
+    {
+        <div class="row justify-content-center p-2">
+            <div class="col-md-6 col-sm-6 col-xs-6 card mb-3">
+                <h5 class="card-title mt-1" id="title">@postViewModel.Post.Title</h5>
+                <img src="~/Content/images/@postViewModel.Post.ImagePath" height="350" class="card-img-top" alt="...">
+                <p>@postViewModel.Post.Body</p>
+                <div class="row mb-1">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <button type="button" class="btn btn-light" disabled>
+                            Like
+                        </button>
+                        <small>@postViewModel.Post.No_likes</small>
+
+                        <button type="button" class="btn btn-light" disabled>
+                            Dislike
+                        </button>
+
+                        <small>@postViewModel.Post.No_dislikes</small>
+                        <button class="btn btn-info align-content-end" type="button" disabled>Save</button>
+
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 p-2 text-right">
+                        <div class="d-inline">
+                            <small class="align-middle">@postViewModel.Post.Editor.Username</small>
+                            <small class="align-middle">@postViewModel.Post.CreateDate.ToString("dd MMM yyyy")</small>
+                            <small class="align-middle">@postViewModel.Post.PostType.Name</small>
+                        </div>
+                        <div class="d-inline">
+                            <small class="align-middle">@postViewModel.Post.No_views</small>
+                            <small class="align-middle">views</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6" id="questions_div">
+                @*Qustions*@
+                @foreach (var question in postViewModel.Post.Questions)
+                {
+                    <div class="accordion mb-1" id="accordion_@question.Id">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-block text-left" type="button" aria-expanded="false" data-toggle="collapse" data-target="#collapse_@question.Id" aria-controls="collapse_@question.Id">
+                                        <span>@question.Title</span>
+                                        <span class="float-right">@question.CreateDate.ToString("dd MMM yyyy")</span>
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapse_@question.Id" class="collapse show p-1" aria-labelledby="headingOne" data-parent="#accordion_@question.Id">
+                                @if (question.Answer == null)
+                                {
+
+                                    <form class="form-inline" id="form">
+                                        <input class="form-control mr-2 mt-1" style="width:100%" placeholder="Your Answer" id="input_answer" required/>
+                                        <button class="btn btn-secondary mt-1" type="button"
+                                                onclick='answer(@question.Id, @Html.Raw(Json.Encode(postViewModel.Post.Editor.Username)))'>
+                                        Submit</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="card-body">
+                                        <span>@question.Answer</span>
+                                        <span class="float-right">@postViewModel.Post.Editor.Username</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+</div>
+
+
+<script>
+    function answer(questionId, editorname) {
+        var input_answer = document.getElementById("input_answer").value;
+        addAnswer(input_answer, editorname, questionId);
+
+        $.ajax({
+            type: "POST",
+            url: "/Editor/AddAnswer",
+            dataType: "json",
+            data: { questionId: questionId, answer: input_answer }
+        }).fail(function () {
+            console.log(false)
+        });
+    }
+    function addAnswer(answer, editorname, questionId) {
+        var form = document.getElementById("form");
+        form.remove();
+
+        var card_body = document.createElement("div");
+        card_body.classList.add("card-body");
+
+        var span_answer = document.createElement("span");
+        span_answer.innerHTML = answer;
+
+        var span_editor_name = document.createElement("span");
+        span_editor_name.innerHTML = editorname;
+        span_editor_name.classList.add("float-right");
+
+        card_body.appendChild(span_answer);
+        card_body.appendChild(span_editor_name);
+
+        document.getElementById("collapse_" + questionId).appendChild(card_body);
+
+    }
+</script>

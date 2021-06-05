@@ -48,6 +48,7 @@ function validatePassword(input) {
     var passReg = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     input.classList.remove('is-invalid')
     input.classList.remove('is-valid')
+    console.log("77")
     if (passReg.test(input.value))
         input.classList.add('is-valid')
     else

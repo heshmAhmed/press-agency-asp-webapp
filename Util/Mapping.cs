@@ -18,7 +18,8 @@ namespace press_agency_asp_webapp.Util
                 Password = user.Password,
                 Phone = user.Phone,
                 UserTypeId = user.UserTypeId,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                ImagePath = user.ImagePath
             };
         }
 
@@ -34,7 +35,8 @@ namespace press_agency_asp_webapp.Util
                 Phone = user.Phone,
                 UserTypeId = user.UserTypeId,
                 Username = user.UserName,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                ImagePath = user.ImagePath
             };
         }
 
@@ -49,7 +51,8 @@ namespace press_agency_asp_webapp.Util
                 Password = user.Password,
                 Phone = user.Phone,
                 UserTypeId = user.UserTypeId,
-                CreateDate = DateTime.Now
+                CreateDate = DateTime.Now,
+                ImagePath = user.ImagePath
             };
         }
 

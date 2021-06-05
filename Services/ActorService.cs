@@ -118,6 +118,11 @@ namespace press_agency_asp_webapp.Services
             return Mapping.MapToUserViewModel(actor);
         }
 
+        public void UpdateImage(int actorId,string img)
+        {
+            Db.Actors.Find(actorId).ImagePath = img;
+            Db.SaveChanges();
+        }
 
     }
 }
