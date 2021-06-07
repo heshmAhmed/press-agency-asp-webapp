@@ -56,7 +56,7 @@ namespace press_agency_asp_webapp.Controllers
             return Json(viewerService.RemoveInteraction(SessionPersister.userId, postId), JsonRequestBehavior.AllowGet);
         }
 
-        [CustomAuthorize(Roles = "editor,viewer,admin")]
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Search(string searchitem)
         {

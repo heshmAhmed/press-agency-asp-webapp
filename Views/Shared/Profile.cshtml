@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Profile";
     ViewBag.Title = "Post";
+    bool isadmin = false;
     switch (HttpContext.Current.Session["usertype"])
     {
         case "viewer":
@@ -13,6 +14,7 @@
             break;
         case "admin":
             Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            isadmin = true;
             break;
         default:
             Layout = "~/Views/Shared/_WallLayout.cshtml";
